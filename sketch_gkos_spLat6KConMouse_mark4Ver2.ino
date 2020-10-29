@@ -19,7 +19,7 @@ const bool Serial_report = false;               // Set to true for serial debugg
 //
 const int pot_sensorPins[] = {A3, A2};
 const int GKOSPins[] = {2, 3, 4, 5, 6, 7};      // reading pins for 6 GKOS buttons
-//const int GKOSPins[] = {7, 6, 5, 4, 3, 2};      // reading pins for 6 GKOS buttons
+//const int GKOSPins[] = {10, 9, 3, 2, 1, 0};      // reading pins for 6 GKOS buttons Leonardo Chiquita 
 const int MousePins[] = {8, 9, 19};             // reading pins for 3 mouse buttons
 const int LEDPins[] = {14, 15, 16};             // LED pins for indicators
 
@@ -91,8 +91,8 @@ const static char GKOS_Char[]={
  ' ','a','b','c','d','e','f','g',
  'h','i','j','k','l','m','n','o',
  'p','q','r','s','t','u','v','w',
- 'x','y','z','!','[',']','@','=',
-'\\','`','/','-',',','.','_','&',
+ 'x','y','z','^','[',']','@','=',
+'/','`','-','\'',',','.','?','\\',
  ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
  (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F',';',(const char)KEY_RIGHT_SHIFT,'S','L'};
@@ -101,8 +101,8 @@ const static char GKOS_Caps[]={
  ' ','a','b','c','d','e','f','g',
  'h','i','j','k','l','m','n','o',
  'p','q','r','s','t','u','v','w',
- 'x','y','z','`','{','}','#','+',
- '|','~','?','@','<','>','!','[',
+ 'x','y','z','&','{','}','#','+',
+ '|','~','_','\"',';',':','!','&',
  ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
  (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F',';',(const char)KEY_RIGHT_SHIFT,'S','L'};
@@ -118,10 +118,10 @@ const static char GKOS_Caps[]={
 
 const static char GKOS_SYMB[]={
 ' ','1','-','3',')','5','=','8',
-'7','4','9','&','(','&','#','e',
-'%','^','6','e','0','2','|','e',
-'[','<','{','e',']','*','e','}',
-'F','>','e','e',',','.','e','R',
+'7','4','9','&','(','&','#','+',
+'%','^','6','*','0','2','|','$',
+'[','<','{','&','{','}','#','+',
+'|','>','_','\"',';',':','!','&',
 ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
 (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
 '+',(const char)KEY_TAB,(const char)KEY_RETURN,(const char)KEY_INSERT,'/',(const char)KEY_RIGHT_SHIFT,'S','L'};
@@ -723,16 +723,16 @@ void gMouse() {  //Para cuando funciona como mouse
     Mouse.move(xDistance, yDistance, 0);
         //Esto es para gestionar la velocidad del mouse de acuerdo al tiempo que mantenemmos las mismas teclas apreatadas
         if (distMouse2xy == (2 * xDistance + yDistance))  {
-          if (responseDelay >= 2) {responseDelay = responseDelay - 1;}
+          if (responseDelay >= 2) {responseDelay = responseDelay - 0.5;}
         } else {
           distMouse2xy = (2 * xDistance + yDistance);
-          responseDelay = 20;
+          responseDelay = 30;
         }  
   }
   else {
       //If all are pressed change to keyboard mode mouseMode = 0
       totalPress = upState + downState + rightState + leftState + clickRightState + clickLeftState;
-      responseDelay = 20;
+      responseDelay = 30;
       //Serial.println("gMouse");
       //Serial.println(totalPress);
       if (totalPress == 0) {
@@ -779,4 +779,108 @@ void gMouse() {  //Para cuando funciona como mouse
   }
 
 }
+
+/*
+ *  AUXiLIAR org-mode emacs
+| 1 |  8 |
+|---+----|
+| 2 | 16 |
+|---+----|
+| 4 | 32 |
+|   |    |
+
+
+
+|          | 12 | 13 | 29 | 49 | 37 |  30 | 21 | 17 | 10 |  20 | 34 | 33 | 51 |
+|----------+----+----+----+----+----+-----+----+----+----+-----+----+----+----|
+|          | 01 | 11 | 11 | 10 | 10 |  01 | 10 | 10 | 01 |  00 | 00 | 10 | 10 |
+|          | 00 | 00 | 01 | 01 | 00 |  11 | 01 | 01 | 10 |  01 | 10 | 00 | 11 |
+|          | 10 | 10 | 10 | 01 | 11 |  10 | 10 | 00 | 00 |  10 | 01 | 01 | 01 |
+|----------+----+----+----+----+----+-----+----+----+----+-----+----+----+----|
+| ABCD EN  |  ^ |  [ |  ] |  @ |  = |   \ |  ` |  - |  " |   , |  . |  ? |  / |
+|----------+----+----+----+----+----+-----+----+----+----+-----+----+----+----|
+| SHIFT EN |  & |  { |  } |  # |  + | pip |  ~ |  _ |  & | OJO |  : |  ! |  & |
+|----------+----+----+----+----+----+-----+----+----+----+-----+----+----+----|
+| SYMB EN  |  & |  { |  } |  # |  + | pip |  ~ |  _ |  ' |   ; |  : |  ! |  & |
+|          |    |    |    |    |    |     |    |    |    |     |    |    |    |
+
+OJO
+Como va con shift al ; en ingles lo pone como :, al igual que al . lo pone como :
+
+|----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|
+|          | 11 | 10 | 10 | 10 | 01 | 10 | 01 | 00 | 00 | 10 | 01 | 10 | 10 | 01 | 11 | 11 |
+|          | 00 | 01 | 00 | 00 | 00 | 01 | 10 | 10 | 01 | 11 | 11 | 01 | 01 | 10 | 10 | 01 |
+|          | 10 | 10 | 11 | 01 | 10 | 00 | 00 | 01 | 10 | 01 | 10 | 01 | 11 | 11 | 01 | 10 |
+|----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|
+| ABCD ES  | '  | pi | ¿  | ?  | !  | -  | '  | .  | ,  | /  | }  | "  | ñ  |    |    | +  |
+|          |    | pe |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+|----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|
+| SHIFT ES | "  | °  | ¡  | !  | °  | _  | "  | :  | ;  | "  | ]  | #  | Ñ  |    |    | *  |
+|----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|
+| SYMB ES  | +  | :  | *  | e  | e  | e  | e  | .  | ,  |    |    | e  | -  |    | ¡  | (  |
+|----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|
+
+Codigo elisp para el cuadrito "C-x e" luego del ultimo ")" de cada funcion 
+
+(defun int-to-binary-string (i)
+  "convert an integer into it's binary representation in string format"
+  (let ((res ""))
+    (while (not (= i 0))
+      (setq res (concat (if (= 1 (logand i 1)) "1" "0") res))
+      (setq i (lsh i -1)))
+    (if (string= res "")
+        (setq res "0"))
+    res)
+)
+
+(defun binary-string-combokey(numero)
+"string binario de 6 caracteres con el formato de las teclas de un chord de combokey"
+   (setq strNumero (int-to-binary-string numero))
+   (while (< (length  strNumero ) 6) (setq strNumero (concat "0" strNumero)))
+   (setq res strNumero)
+)
+
+(defun print-combokey(numero)
+   (setq strNumero (binary-string-combokey numero))
+   (end-of-line)
+   (insert (concat "|" (number-to-string numero)))
+   (forward-line 1)
+   (end-of-line)
+   (insert (concat "|" (substring strNumero 5 6) (substring strNumero 2 3)))
+   (forward-line 1)
+   (end-of-line)
+   (insert (concat "|" (substring strNumero 4 5) (substring strNumero 1 2)))
+   (forward-line 1)
+   (end-of-line)
+   (insert (concat "|" (substring strNumero 3 4) (substring strNumero 0 1)))
+)
+
+
+   0, 1,21,15, 3, 4,19,44,
+   9,48,35,16,27,28,23,45,
+   5,34,61, 6,36,33,13,46,
+  20, 8, 7,49,10,29,32,52,
+  18,38,37,17,51,31,22,47,
+  12,24,25,56,26,62,59,53,
+  14,30, 2,39,11,60,50,54,
+  40,41,42,58,43,57,55,63};
+
+
+Los caracteres que no son letras sin contar los que estan en simbolos salvo excepciones coinciden en los 3 modos
+(setq raros '(12 13 29 49 37 30 21 17 10 20 34 33 51))
+
+(while raros
+   (save-excursion (forward-line 1)(end-of-line)(print-combokey  (car raros)))
+   (setq raros (cdr raros))
+)
+|12|13|29|49|37|30|21|17|10|20|34|33|51
+|01|11|11|10|10|01|10|10|01|00|00|10|10
+|00|00|01|01|00|11|01|01|10|01|10|00|11
+|10|10|10|01|11|10|10|00|00|10|01|01|01
+
+ * 
+ * 
+ * 
+ */
+ 
 
