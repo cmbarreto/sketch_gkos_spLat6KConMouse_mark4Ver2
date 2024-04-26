@@ -18,7 +18,8 @@ const bool Serial_report = false;               // Set to true for serial debugg
 // Pin assignment
 //
 const int pot_sensorPins[] = {A3, A2};
-const int GKOSPins[] = {2, 3, 4, 5, 6, 7};      // reading pins for 6 GKOS buttons
+const int GKOSPins[] = {5, 6, 7, 2, 3, 4};      // reading pins for 6 GKOS buttons
+//const int GKOSPins[] = {2, 3, 4, 5, 6, 7};      // reading pins for 6 GKOS buttons
 //const int GKOSPins[] = {10, 9, 3, 2, 1, 0};      // reading pins for 6 GKOS buttons Leonardo Chiquita 
 const int MousePins[] = {8, 9, 19};             // reading pins for 3 mouse buttons
 const int LEDPins[] = {14, 15, 16};             // LED pins for indicators
@@ -104,7 +105,7 @@ const static char GKOS_Caps[]={
  'x','y','z','&','{','}','#','+',
  '|','~','_','\"',';',':','!','&',
  ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
- (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+ (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F',';',(const char)KEY_RIGHT_SHIFT,'S','L'};
 //const static char GKOS_Caps[]={
 // ' ','a','b','c','d','e','f','g',
