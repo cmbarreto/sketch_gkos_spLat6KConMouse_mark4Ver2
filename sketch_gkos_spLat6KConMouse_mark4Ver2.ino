@@ -14,11 +14,11 @@
 boolean keyboardActive = false;                 // Safety feature, in case programming goes bananas
 const bool Serial_report = false;               // Set to true for serial debugging 
 
-//
+//  
 // Pin assignment
 //
 const int pot_sensorPins[] = {A3, A2};
-const int GKOSPins[] = {5, 6, 7, 2, 3, 4};      // reading pins for 6 GKOS buttons
+const int GKOSPins[] = {2, 3, 4, 5, 6, 7};      // reading pins for 6 GKOS buttons
 //const int GKOSPins[] = {2, 3, 4, 5, 6, 7};      // reading pins for 6 GKOS buttons
 //const int GKOSPins[] = {10, 9, 3, 2, 1, 0};      // reading pins for 6 GKOS buttons Leonardo Chiquita 
 const int MousePins[] = {8, 9, 19};             // reading pins for 3 mouse buttons
@@ -86,7 +86,7 @@ const static int GKOS_Chord2_gRef[] = {
 // 'x','y','z','^','[',']','@','=',
 //'\\','`','-','\"',',','.','?','/',
 // ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
-// (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+// (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
 // (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F','R',(const char)KEY_RIGHT_SHIFT,'S','L'};
 const static char GKOS_Char[]={
  ' ','a','b','c','d','e','f','g',
@@ -95,7 +95,7 @@ const static char GKOS_Char[]={
  'x','y','z','^','[',']','@','=',
 '/','`','-','\'',',','.','?','\\',
  ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
- (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+ (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F',';',(const char)KEY_RIGHT_SHIFT,'S','L'};
 
 const static char GKOS_Caps[]={
@@ -114,7 +114,7 @@ const static char GKOS_Caps[]={
 // 'x','y','z','&','{','}','#','+',
 // '|','~','_','\'',';',':','!','&',
 // ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
-// (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+// (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
 // (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F','R',(const char)KEY_RIGHT_SHIFT,'S','L'};
 
 const static char GKOS_SYMB[]={
@@ -124,7 +124,7 @@ const static char GKOS_SYMB[]={
 '[','<','{','&','{','}','#','+',
 '|','>','_','\"',';',':','!','&',
 ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
-(const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+(const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
 '+',(const char)KEY_TAB,(const char)KEY_RETURN,(const char)KEY_INSERT,'/',(const char)KEY_RIGHT_SHIFT,'S','L'};
 
 //const static char GKOS_SYMB[]={
@@ -134,7 +134,7 @@ const static char GKOS_SYMB[]={
 //  '9','(','^','&','{','}','[',']',
 //  '|','&','-','+',',','.','*','/',
 //  ' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
-//  (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_RIGHT_ALT,(const char)KEY_DELETE,
+//  (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
 //  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F','R',(const char)KEY_RIGHT_SHIFT,'S','L'};
 
 
@@ -208,15 +208,16 @@ void loop()
         if (Serial_report) delay(500);
         else delay(20);
     }
-//    if( GKOS_mode >= 3)
-//    {
-//      Read_Mouse_Pots();
-//      delay(50);
-//    }
-//    else
-//    {
-//      Read_Navigation_Pots();
-//    }
+///   if( GKOS_mode >= 3)
+   if( GKOS_mode < 3)
+   {
+     Read_Mouse_Pots();
+     delay(50);
+   }
+   else
+   {
+     Read_Navigation_Pots();
+   }
   }
   return;
 }
@@ -288,9 +289,11 @@ void Read_Mouse_Pots()
   {
     data = ReadAnaloguePin( i);
     if( -100<data && data<100)
+//      pot_Position[i] = (signed char)(data / 3); 
       pot_Position[i] = (signed char)(data / 5); 
     else
       pot_Position[i] = (signed char)(data);
+//    if( button_Scroll) pot_Position[i] = pot_Position[i] / 3; 
     if( button_Scroll) pot_Position[i] = pot_Position[i] / 5; 
   }
 
@@ -454,7 +457,7 @@ void SendButtons()
 {
   if( SubstituteShift((char)KEY_RIGHT_SHIFT)) return;
   if( SubstituteCtrl((char)KEY_RIGHT_CTRL)) return;
-  if( SubstituteAlt((char)KEY_RIGHT_ALT)) return;
+  if( SubstituteAlt((char)KEY_LEFT_ALT)) return;
   if( SubstituteWin((char)KEY_RIGHT_GUI)) return;
   if( SubstituteRusLat()) return;
   if( SubstituteFunction()) return;
@@ -468,11 +471,11 @@ void SendButtons()
   if( SubstituteMetacode( 'A', " && ")) return;
   if( SubstituteMouse()) return;
   if( CTRL_Requested) Keyboard.press( KEY_RIGHT_CTRL);
-  if( ALT_Requested) Keyboard.press( KEY_RIGHT_ALT);
+  if( ALT_Requested) Keyboard.press( KEY_LEFT_ALT);
   if( WIN_Requested) Keyboard.press( KEY_LEFT_GUI);
   Keyboard.write( GKOS_output);
   if( WIN_Requested) Keyboard.release( KEY_LEFT_GUI);
-  if( ALT_Requested) Keyboard.release( KEY_RIGHT_ALT);
+  if( ALT_Requested) Keyboard.release( KEY_LEFT_ALT);
   if( CTRL_Requested) Keyboard.release( KEY_RIGHT_CTRL);
   if( GKOS_mode == 1)
   {
@@ -625,12 +628,12 @@ bool SubstituteWin( char code)
 bool SubstituteRusLat()
 {
   if( GKOS_output != 'R') return false;
-  Keyboard.press( KEY_RIGHT_ALT);
+  Keyboard.press( KEY_LEFT_ALT);
   Keyboard.press( KEY_RIGHT_SHIFT);
   //Keyboard.press( KEY_RIGHT_CTRL);
   //Keyboard.release( KEY_RIGHT_CTRL);
   Keyboard.release( KEY_RIGHT_SHIFT);
-  Keyboard.release( KEY_RIGHT_ALT);
+  Keyboard.release( KEY_LEFT_ALT);
   return true;
 }
 
@@ -883,5 +886,3 @@ Los caracteres que no son letras sin contar los que estan en simbolos salvo exce
  * 
  * 
  */
- 
-
