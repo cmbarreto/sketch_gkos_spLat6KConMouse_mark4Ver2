@@ -137,6 +137,16 @@ const static char GKOS_SYMB[]={
 //  (const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
 //  (const char)KEY_INSERT,(const char)KEY_TAB,(const char)KEY_RETURN,'F','R',(const char)KEY_RIGHT_SHIFT,'S','L'};
 
+const static char GKOS_FNCT[]={
+' ',(const char)KEY_F1,(const char)KEY_F12,(const char)KEY_F3,')',(const char)KEY_F5,'=',(const char)KEY_F8,
+(const char)KEY_F7,(const char)KEY_F4,(const char)KEY_F9,'&','(','&','#','+',
+'%','^',(const char)KEY_F6,'*',(const char)KEY_F10,(const char)KEY_F2,'|','$',
+'[','<','{','&','{','}',(const char)KEY_F11,'+',
+'|','>','_','\"',';',':','!','&',
+' ',(const char)KEY_RIGHT_ARROW,'V',(const char)KEY_END,(const char)KEY_BACKSPACE,(const char)KEY_LEFT_ARROW,'C',(const char)KEY_HOME,
+(const char)KEY_UP_ARROW,(const char)KEY_PAGE_UP,(const char)KEY_PAGE_DOWN,(const char)KEY_DOWN_ARROW,(const char)KEY_ESC,(const char)KEY_RIGHT_CTRL,(const char)KEY_LEFT_ALT,(const char)KEY_DELETE,
+'+',(const char)KEY_TAB,(const char)KEY_RETURN,(const char)KEY_INSERT,'/',(const char)KEY_RIGHT_SHIFT,'S','L'};
+
 
 //
 // Buttons data
@@ -153,7 +163,7 @@ int  GKOS_gChord = 0;        // GKOS final chord value (0...63) for the characte
 bool  GKOS_gNew = false;     // a new character is expected soon because new keys were pressed
 int  GKOS_gRef = 0;          // Character index within the set (0...63)
 
-int  GKOS_mode = 0;          // mode: 0 - normal, 1 - shift, 2 - caps lock, 3 - sym, 4 - num lock, 5 - Mouse Mode
+int  GKOS_mode = 0;          // mode: 0 - normal, 1 - shift, 2 - caps lock, 3 - sym, 4 - num lock, 5 - Mouse Mode, 6 - Function Mode
 char GKOS_output = ' ';
 
 //
@@ -288,11 +298,13 @@ void Read_Mouse_Pots()
   for( int i=0; i<2; i++)
   {
     data = ReadAnaloguePin( i);
-    if( -100<data && data<100)
-//      pot_Position[i] = (signed char)(data / 3); 
-      pot_Position[i] = (signed char)(data / 5); 
+    if( -119<data && data<119)
+//    if( -100<data && data<100)
+      pot_Position[i] = (signed char)(data  / 4); 
+//      pot_Position[i] = (signed char)(data / 5); 
     else
       pot_Position[i] = (signed char)(data);
+//      pot_Position[i] = (signed char)(data);
 //    if( button_Scroll) pot_Position[i] = pot_Position[i] / 3; 
     if( button_Scroll) pot_Position[i] = pot_Position[i] / 5; 
   }
@@ -446,6 +458,9 @@ bool GKOS_Decoder()
       break;
     //case 5: // Mouse
       //break;
+    case 6: // Function
+      GKOS_output = GKOS_FNCT[GKOS_gRef];
+      break;
     default: // Symb
       GKOS_output = GKOS_SYMB[GKOS_gRef];
       break;
@@ -643,6 +658,7 @@ bool SubstituteRusLat()
 bool SubstituteFunction()
 {
   if( GKOS_output != 'F') return false;
+  GKOS_mode = 6;
   return true;
 }
 
@@ -688,6 +704,9 @@ bool SubstituteABC123()
       GKOS_mode = 0;
       return true;
     case 5:
+      GKOS_mode = 0;
+      return true;   
+    case 6:
       GKOS_mode = 0;
       return true;   
     default:
@@ -886,3 +905,5 @@ Los caracteres que no son letras sin contar los que estan en simbolos salvo exce
  * 
  * 
  */
+ 
+
